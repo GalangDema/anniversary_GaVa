@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>25-8-2025: Perjalanan Kita 💚</title>
+    <style>
+        /* Gaya Retro Dominan Hijau */
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #f0fff0;
+            color: #006400;
+            margin: 0;
+            padding: 20px;
+            /* PROPERTI YANG DIPERBAIKI UNTUK MEMASTIKAN SCROLL BERFUNGSI */
+            align-items: center; 
+            text-align: center;
+            box-sizing: border-box;
+            overflow-x: hidden; 
+        }
+
+        .container {
+            background-color: #ffffff;
+            border: 5px solid #3cb371; 
+            padding: 30px 40px;
+            box-shadow: 10px 10px 0px #2e8b57;
+            max-width: 600px;
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            position: relative; 
+            z-index: 10;
+            /* SOLUSI PEMUSATAN: Margin Vertikal (atas/bawah) 0, Margin Horizontal (kiri/kanan) Auto */
+            margin: 0 auto 30px auto; 
+        }
+
+        /* --- GAYA KONTROL MUSIK BARU --- */
+        .music-controls {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px; 
+        }
+        .music-btn {
+            background-color: #3cb371;
+            color: #fff;
+            border: 2px solid #006400;
+            padding: 8px 15px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.2s, transform 0.1s;
+            box-shadow: 3px 3px 0px #006400;
+        }
+        .music-btn:hover {
+            background-color: #2e8b57;
+        }
+        .music-btn:active {
+            transform: translateY(3px) translateX(3px);
+            box-shadow: 0px 0px 0px #006400;
+        }
+        /* --- END GAYA KONTROL MUSIK --- */
+
+        /* --- GAYA JAM ANALOG BARU --- */
+        .clock-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        #analog-clock {
+            width: 150px;
+            height: 150px;
+            border: 8px solid #006400; /* Bingkai Hijau Tua */
+            background-color: #e6ffe6; /* Latar Belakang Hijau Muda */
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Titik tengah jam */
+        #analog-clock::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background-color: #000000;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+            border-radius: 2px;
+            background-color: black;
+            z-index: 5;
+            /* Transisi untuk pergerakan halus, terutama pada jarum menit/jam */
+            transition: transform 0.05s cubic-bezier(0.4, 2.3, 0.6, 1);
+        }
+
+        /* Jarum Jam */
+        #hour-hand {
+            width: 6px;
+            height: 40px;
+            background-color: #000000;
+        }
+
+        /* Jarum Menit */
+        #minute-hand {
+            width: 4px;
+            height: 55px;
+            background-color: #000000;
+        }
+
+        /* Jarum Detik (Warna Hijau Cerah) */
+        #second-hand {
+            width: 2px;
+            height: 65px;
+            background-color: #3cb371; 
+            z-index: 9;
+            transition: none; /* Jarum detik harus bergerak setiap detik, tanpa transisi */
+        }
+        /* --- END GAYA JAM ANALOG --- */
+
+        /* --- GAYA ANIMASI HATI HIJAU BARU --- */
+        .heart-particle {
+            position: fixed;
+            color: #3cb371; /* Warna hijau hati */
+            font-size: 1.5em;
+            pointer-events: none; /* Penting agar tidak menghalangi klik */
+            animation: fall linear infinite;
+            text-shadow: 1px 1px 0px #006400;
+            z-index: 999; /* Pastikan di atas semua elemen */
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        /* --- END GAYA ANIMASI HATI HIJAU --- */
+
+
+        h1 {
+            color: #008000; 
+            font-size: 2.5em;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px #d0f0c0;
+        }
+
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .date-start {
+            font-style: italic;
+            margin-top: 5px;
+            font-size: 1.1em;
+            color: #006400;
+            border-bottom: 2px dashed #006400;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .monthly-message {
+            background-color: #e6ffe6;
+            border: 3px solid #3cb371;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            box-shadow: 3px 3px 0px #3cb371;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        #duration-text {
+            background-color: #ccffcc;
+            border: 2px solid #008000;
+            padding: 10px;
+            margin-top: 15px;
+            font-size: 1em;
+            color: #004d00;
+        }
+        
+        /* --- GAYA GALERI FOTO FLEKSIBEL --- */
+        .photo-gallery {
+            background-color: #d8f5d8;
+            border: 4px solid #004d00;
+            padding: 30px 20px;
+            max-width: 600px;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 5px 5px 0px #2e8b57;
+            /* SOLUSI PEMUSATAN: Margin Horizontal Auto */
+            margin: 0 auto;
+        }
+
+        .photo-gallery h2 {
+            color: #000000;
+            font-size: 1.8em;
+            border-bottom: 3px solid #006400;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+
+        .photo-frame {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        /* [Lanjutan Gaya Photo Item dari sebelumnya...] */
+        .photo-item {
+            position: relative;
+            background-color: #ffffff;
+            padding: 10px 10px 30px 10px; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            
+            max-width: 180px; 
+            width: 40vw; 
+            
+            min-height: 100px;
+            overflow: visible; 
+            
+            transform: rotate(calc(var(--rotation) * 1deg)); 
+            --rotation: 2; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .photo-item:nth-child(2) { --rotation: -1; }
+        .photo-item:nth-child(3) { --rotation: 3; }
+        .photo-item:nth-child(4) { --rotation: -4; }
+        .photo-item:nth-child(5) { --rotation: 1; } 
+        .photo-item:hover {
+            transform: scale(1.1) rotate(0deg); 
+            z-index: 10;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        .photo-item img {
+            width: 100%;
+            height: auto; 
+            object-fit: contain; 
+            display: block;
+            border: 1px solid #000000;
+        }
+        /* --- END GAYA GALERI FOTO --- */
+        
+        /* Animasi Kursor Ketik Retro */
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background-color: #006400;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* Media Query untuk Responsivitas Ponsel */
+        @media (max-width: 480px) {
+            #analog-clock {
+                width: 120px;
+                height: 120px;
+            }
+            #hour-hand { height: 30px; }
+            #minute-hand { height: 45px; }
+            #second-hand { height: 55px; }
+
+            h1 { font-size: 2em; }
+            .date-start, p, .monthly-message { font-size: 1em; }
+            .photo-frame { gap: 20px; }
+            .photo-item {
+                max-width: 140px;
+                width: 45vw; 
+                padding: 8px 8px 25px 8px; 
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <audio id="background-music" loop>
+        <source src="music/lagu_romantis.mp3" type="audio/mpeg">
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+    
+    <div class="container">
+        <div class="clock-container">
+            <div id="analog-clock">
+                <div id="hour-hand" class="hand"></div>
+                <div id="minute-hand" class="hand"></div>
+                <div id="second-hand" class="hand"></div>
+            </div>
+        </div> 
+        
+        <h1>Perjalanan Cinta Kita 💚</h1>
+        
+        <div class="music-controls">
+            <button id="play-pause-btn" class="music-btn">▶ PUTAR MUSIK</button>
+        </div>
+        <p class="date-start">
+            Kami Mulai Pacaran Pada:<br>
+            **25 Agustus 2025**
+        </p>
+
+        <p id="introduction-message">
+            Hai Sayang! Selamat datang di mesin waktu kecil kita. Dengan warna kesukaanmu, semoga setiap hari bersamaku sehijau dan sesegar ini.
+        </p>
+
+        <div class="monthly-message">
+            <span id="monthly-text"></span><span class="cursor"></span>
+        </div>
+        
+        <p id="duration-text" style="font-weight: bold;"></p>
+        
+        <p style="margin-top: 30px; font-size: 1em;">
+            Pesan spesial akan muncul tepat di tanggal 25 setiap bulan.
+        </p>
+    </div>
+
+    <div class="photo-gallery">
+        <h2>📷 Galeri Kenangan </h2>
+        <div class="photo-frame">
+            <div class="photo-item">
+                <img src="image/foto1.jpg" alt="Foto pertama yang kusuka">
+            </div>
+            <div class="photo-item">
+                <img src="image/foto2.jpg" alt="Editan pertama kita walau masih ldr">
+            </div>
+            <div class="photo-item">
+                <img src="image/foto3.jpg" alt="Editan pertama kita walau masih ldr">
+            </div>
+            <div class="photo-item">
+                <img src="image/foto4.jpg" alt="Liburan Puncak">
+            </div>
+            <div class="photo-item">
+                <img src="image/foto5.jpg" alt="Liburan Puncak">
+            </div>
+        </div>
+        <p style="font-size: 0.9em; margin-top: 20px;">
+            Momen-momen terbaik kita, yang akan terus bertambah.
+        </p>
+    </div>
+
+    <script>
+        // *** TANGGAL MULAI: 25 AGUSTUS 2025 ***
+        const startDate = new Date('2025-08-25T00:00:00'); 
+        const bgMusic = document.getElementById('background-music');
+        
+        // Elemen baru untuk Kontrol Musik
+        const playPauseBtn = document.getElementById('play-pause-btn');
+
+        // 2. FUNGSI UNTUK MEMUTAR MUSIK SAAT INTERAKSI PERTAMA
+        function enableMusic() {
+            if (bgMusic.paused) {
+                bgMusic.play().catch(error => {
+                    console.log("Autoplay blocked, user might need to click again.");
+                });
+            }
+            document.removeEventListener('click', enableMusic);
+            document.removeEventListener('touchstart', enableMusic);
+        }
+
+        document.addEventListener('click', enableMusic);
+        document.addEventListener('touchstart', enableMusic);
+        
+        // --- FUNGSI KONTROL MUSIK INTERAKTIF BARU ---
+        function toggleMusic() {
+            if (bgMusic.paused) {
+                // Mencoba memutar musik dan memperbarui tombol
+                bgMusic.play().then(() => {
+                    playPauseBtn.textContent = '⏸ JEDA MUSIK';
+                }).catch(error => {
+                    // Penanganan jika autoplay diblokir
+                    console.error("Gagal memutar musik:", error);
+                });
+            } else {
+                bgMusic.pause();
+                playPauseBtn.textContent = '▶ PUTAR MUSIK';
+            }
+        }
+        // Tambahkan event listener ke tombol baru
+        playPauseBtn.addEventListener('click', toggleMusic);
+        // --- END FUNGSI KONTROL MUSIK INTERAKTIF ---
+
+        // --- FUNGSI JAM ANALOG BARU ---
+        const hourHand = document.getElementById('hour-hand');
+        const minuteHand = document.getElementById('minute-hand');
+        const secondHand = document.getElementById('second-hand');
+
+        function updateAnalogClock() {
+            const now = new Date();
+            const hours = now.getHours() % 12; // 12-jam format
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            const milliseconds = now.getMilliseconds();
+            
+            // Hitungan rotasi (360 derajat)
+            const secondsDegree = (seconds + milliseconds / 1000) * 6;
+            const minutesDegree = (minutes + seconds / 60) * 6;
+            const hoursDegree = (hours + minutes / 60) * 30;
+
+            // Terapkan rotasi. Rotasi dimulai dari jam 12 (0 deg)
+            hourHand.style.transform = `rotate(${hoursDegree}deg)`;
+            minuteHand.style.transform = `rotate(${minutesDegree}deg)`;
+            secondHand.style.transform = `rotate(${secondsDegree}deg)`;
+        }
+
+        // Perbarui jam setiap 50 milidetik untuk pergerakan detik yang halus (sweeping)
+        setInterval(updateAnalogClock, 50); 
+        // Panggil sekali untuk menampilkan jam segera saat halaman dimuat
+        updateAnalogClock(); 
+        // --- END FUNGSI JAM ANALOG ---
+        
+        // --- ANIMASI HATI HIJAU JATUH BARU ---
+        function createHeart() {
+            const heart = document.createElement('span');
+            heart.classList.add('heart-particle');
+            heart.innerHTML = '💚'; 
+
+            // Posisi X acak (0% - 100% lebar layar)
+            heart.style.left = Math.random() * 100 + 'vw';
+            
+            // Ukuran acak
+            heart.style.fontSize = Math.random() * 1.5 + 1 + 'em';
+            
+            // Kecepatan jatuh acak (durasi animasi)
+            heart.style.animationDuration = Math.random() * 10 + 5 + 's'; 
+            
+            // Jeda acak sebelum mulai jatuh
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            
+            document.body.appendChild(heart);
+
+            // Hapus partikel setelah animasi selesai
+            setTimeout(() => {
+                heart.remove();
+            }, (Math.random() * 10 + 5) * 1000); 
+        }
+
+        // Buat hati baru setiap 500ms
+        setInterval(createHeart, 500); 
+        // --- END ANIMASI HATI HIJAU JATUH ---
+
+        // --- FUNGSI PERHITUNGAN DURASI (TETAP SAMA) ---
+        function calculateDuration() {
+            const anniversaryDay = startDate.getDate(); 
+            const now = new Date();
+            const diffTime = Math.abs(now - startDate); 
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            let monthsDifference = (now.getFullYear() - startDate.getFullYear()) * 12;
+            monthsDifference -= startDate.getMonth();
+            monthsDifference += now.getMonth();
+
+            if (now.getDate() < anniversaryDay && monthsDifference > 0) {
+                monthsDifference--;
+            }
+
+            const monthCount = Math.max(0, monthsDifference);
+            
+            let nextAnniversaryDate = new Date(now.getFullYear(), now.getMonth(), anniversaryDay);
+            
+            if (now.getDate() >= anniversaryDay) {
+                nextAnniversaryDate.setMonth(nextAnniversaryDate.getMonth() + 1);
+            }
+
+            nextAnniversaryDate.setDate(anniversaryDay);
+
+            while (nextAnniversaryDate.getDate() !== anniversaryDay) {
+                nextAnniversaryDate.setDate(nextAnniversaryDate.getDate() - 1);
+            }
+
+            const remainingTime = nextAnniversaryDate.getTime() - now.getTime();
+            let remainingDays = (now.getDate() === anniversaryDay) ? 30 : Math.ceil(remainingTime / (1000 * 60 * 60 * 24));
+            
+            if (now.getDate() === anniversaryDay) {
+                let nextMonth = new Date(now);
+                nextMonth.setMonth(nextMonth.getMonth() + 1);
+                nextMonth.setDate(anniversaryDay);
+
+                let daysInNextMonth = Math.ceil((nextMonth.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+                remainingDays = daysInNextMonth;
+            }
+
+            return {
+                totalMonths: monthCount,
+                totalDays: diffDays,
+                remainingDays: Math.max(0, remainingDays) 
+            };
+        }
+        
+        // --- FUNGSI PESAN BULANAN (TETAP SAMA) ---
+        function getMonthlyText(monthCount) {
+            const anniversaryDay = startDate.getDate(); 
+            const isAnniversaryDay = new Date().getDate() === anniversaryDay;
+            
+            if (!isAnniversaryDay) {
+                return "Menanti tanggal spesial kita... Setiap hari bersamamu adalah berkah, tak sabar menyambut hari jadi bulanan kita berikutnya!";
+            }
+            
+            const monthlyMessages = [
+                "Ini adalah halaman pertama kisah kita. Di mana kita mulai menanam benih cinta yang kini berwarna hijau, warna kesukaanmu!", 
+                "Selamat 1 Bulan, Sayang! Sebulan ini sejuk dan menyenangkan, seperti berada di bawah pohon rindang bersamamu.", 
+                "Selamat 2 Bulan, Cintaku. Setiap hari bersamamu adalah petualangan baru di alam yang indah. Kau adalah rumah bagiku.", 
+                "Selamat 3 Bulan! Waktu berjalan begitu cepat karena aku terlalu sibuk menikmati setiap momen hijau bersamamu. Kau tak tergantikan.", 
+                "Selamat 4 Bulan. Kau ajari aku arti cinta sejati. Terima kasih karena selalu ada, My Love.", 
+                "Selamat 5 Bulan! Lima bulan yang indah. Aku tak sabar menjalani sisa hidupku bersamamu.", 
+                "Selamat Setengah Tahun (6 Bulan)! Kita sudah melewati banyak hal. Masa depan terlihat sangat cerah karena ada kamu di dalamnya.", 
+                "Selamat 7 Bulan. Cinta kita terus tumbuh, seperti tanaman yang disiram setiap hari. Aku mencintaimu lebih dari kemarin.", 
+                "Selamat 8 Bulan! Delapan bulan menjadi bagian dari hidupmu adalah hadiah terindah. Aku mencintaimu selalu.", 
+                "Selamat 9 Bulan. Semakin lama kita bersama, semakin aku yakin bahwa kaulah takdirku. Kau segalanya.", 
+                "Selamat 10 Bulan. Sepuluh bulan ini adalah bukti bahwa cinta yang tulus akan selalu menemukan jalannya.", 
+                "Selamat 11 Bulan. Kita hampir mencapai satu tahun! Aku sudah mulai merencanakan perayaan besar kita. Kau siap?", 
+                "Selamat 1 Tahun! Happy Anniversary, Sayangku. Ini baru permulaan dari kisah kita yang abadi. Aku janji untuk selalu menjagamu." 
+            ];
+            
+            if (monthCount >= 12 && (monthCount % 12 === 0)) {
+                 const year = monthCount / 12;
+                 return `Selamat **${year} TAHUN** Anniversary! Kau adalah alasan aku tersenyum setiap hari. Perjalanan kita tak akan pernah berakhir. I Love You!`;
+            } else if (monthCount >= monthlyMessages.length) {
+                return `Selamat ${monthCount} Bulan! Setiap bulan bersamamu adalah keajaiban. Aku mencintaimu!`;
+            } else {
+                return monthlyMessages[monthCount];
+            }
+        }
+
+        // Tampilkan teks dengan efek ketikan
+        function typeWriter(text, i, targetElement) {
+            if (i < text.length) {
+                const char = text.charAt(i);
+                if (char === '*' && text.charAt(i+1) === '*') {
+                    targetElement.innerHTML += '<strong>';
+                    setTimeout(() => typeWriter(text, i + 2, targetElement), 10);
+                } else if (char === '*' && text.charAt(i-1) === '*') {
+                     targetElement.innerHTML += '</strong>';
+                    setTimeout(() => typeWriter(text, i + 1, targetElement), 10);
+                }
+                 else {
+                    targetElement.innerHTML += char;
+                    setTimeout(() => typeWriter(text, i + 1, targetElement), 50);
+                }
+            } else {
+                displayDuration();
+            }
+        }
+
+        function displayDuration() {
+            const duration = calculateDuration();
+            const durationTextElement = document.getElementById('duration-text');
+            const anniversaryDay = startDate.getDate();
+            
+            let monthsString = (duration.totalMonths === 0) ? '' : `${duration.totalMonths} Bulan dan `;
+            
+            let detailMessage = `Kita sudah bersama selama **${monthsString}${duration.totalDays} Hari**!`;
+            
+            if (new Date().getDate() !== anniversaryDay) {
+                detailMessage += `<br>Tersisa **${duration.remainingDays} Hari** lagi menuju hari jadi bulan depan.`;
+            } else {
+                detailMessage += `<br>Selamat menikmati hari jadi ke-${duration.totalMonths} bulan kita hari ini! 🥳`;
+            }
+
+            durationTextElement.innerHTML = detailMessage;
+        }
+
+        // Jalankan inisialisasi teks setelah semua fungsi didefinisikan
+        const durationData = calculateDuration();
+        const target = document.getElementById('monthly-text');
+        const message = getMonthlyText(durationData.totalMonths);
+        
+        typeWriter(message, 0, target);
+    </script>
+
+</body>
+</html>
